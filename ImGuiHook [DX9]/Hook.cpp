@@ -6,10 +6,14 @@
 #include "Menu.h"
 #include "HitshapeViewer.h"
 #include "WidescreenFix.h"
+#include "StagePropDrawer.h"
+#include "FreeCam.h"
+#include "CameraData.h"
 
 Hook::CurrentProcess Hook::Process;
 Hook::_DirectXVersion  Hook::DirectXVersion;
 
+Hook::BeginScene oBeginScene;
 Hook::EndScene oEndScene;
 Hook::Present oPresent;
 Hook::DrawIndexedPrimitive oDrawIndexedPrimitive;
@@ -24,6 +28,14 @@ Hook::SetPixelShader oSetPixelShader;
 Hook::SetTransform oSetTransform;
 Hook::GetTransform oGetTransform;
 
+HRESULT APIENTRY hkBeginScene(IDirect3DDevice9* pDevice) {
+
+    if (pDevice == NULL)
+        return oBeginScene(pDevice);
+
+    return oBeginScene(pDevice);
+}
+
 HRESULT APIENTRY hkEndScene(IDirect3DDevice9* pDevice) {
     if (pDevice == NULL)
         return oEndScene(pDevice);
@@ -36,10 +48,22 @@ HRESULT APIENTRY hkEndScene(IDirect3DDevice9* pDevice) {
     }
 
     WidescreenFix::Update();
+
+    IDirect3DStateBlock9* state;
+
+    pDevice->CreateStateBlock(D3DSBT_ALL, &state);
+    state->Capture();
+
     Menu::Draw();
     HitshapeViewer::Draw(pDevice);
+    StagePropDrawer::Draw(pDevice);
+    
+    state->Apply();
+    state->Release();
     return oEndScene(pDevice);
 }
+
+
 
 HRESULT APIENTRY hkPresent(IDirect3DDevice9* pDevice, const RECT* pSourceRect, const RECT* pDestRect, HWND hDestWindowOverride, const RGNDATA* pDirtyRegion) {
     if (pDevice == NULL)
@@ -116,6 +140,14 @@ HRESULT APIENTRY hkSetPixelShader(IDirect3DDevice9* pDevice, IDirect3DPixelShade
 }
 
 HRESULT APIENTRY hkSetTransform(IDirect3DDevice9* pDevice, D3DTRANSFORMSTATETYPE State, D3DMATRIX* pMatrix) {
+
+    if (pDevice == NULL)
+        return oSetTransform(pDevice, State, pMatrix);
+
+    if (pMatrix == CameraData::ViewMatrix) {
+        FreeCam::Update();
+    }
+    
     return oSetTransform(pDevice, State, pMatrix);
 }
 
@@ -169,6 +201,7 @@ DWORD WINAPI Hook::Init(LPVOID lpParameter)
     DVTable = (DWORD*)DVTable[0];
 #endif
 
+    oBeginScene = (BeginScene)DVTable[41];
     oEndScene = (EndScene)DVTable[42];
     oSetTransform = (SetTransform)DVTable[44];
     oGetTransform = (GetTransform)DVTable[45];
@@ -185,6 +218,7 @@ DWORD WINAPI Hook::Init(LPVOID lpParameter)
 
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
+    DetourAttach(&(LPVOID&)oBeginScene, (PBYTE)hkBeginScene);
     DetourAttach(&(LPVOID&)oEndScene, (PBYTE)hkEndScene);
     DetourAttach(&(LPVOID&)oPresent, (PBYTE)hkPresent);
     DetourAttach(&(LPVOID&)oDrawIndexedPrimitive, (PBYTE)hkDrawIndexedPrimitive);

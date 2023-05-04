@@ -10,5 +10,9 @@ namespace Globals
 	extern bool DispHurtSpheres;
 
 	extern bool IsWidescreen;	
+
+	extern bool DispStageCollision;
+
+	extern bool IsFreeCamera;
 };
 

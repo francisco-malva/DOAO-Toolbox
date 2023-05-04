@@ -5,3 +5,5 @@ bool Globals::DispHurtSpheres;
 bool Globals::Initialized;
 bool Globals::ShowMenu;
 bool Globals::IsWidescreen;
+bool Globals::DispStageCollision;
+bool Globals::IsFreeCamera;

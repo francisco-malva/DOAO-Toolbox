@@ -99,6 +99,8 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,6 +119,10 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +141,8 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,6 +161,10 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,6 +176,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CameraData.h" />
+    <ClInclude Include="FreeCam.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HitshapeViewer.h" />
     <ClInclude Include="Directories\ImGui\imconfig.h" />
@@ -178,9 +192,12 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="par_octasphere.h" />
     <ClInclude Include="Shapes.h" />
+    <ClInclude Include="StagePropDrawer.h" />
     <ClInclude Include="WidescreenFix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraData.cpp" />
+    <ClCompile Include="FreeCam.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="HitshapeViewer.cpp" />
     <ClCompile Include="Directories\ImGui\imgui.cpp" />
@@ -194,6 +211,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="StagePropDrawer.cpp" />
     <ClCompile Include="WidescreenFix.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

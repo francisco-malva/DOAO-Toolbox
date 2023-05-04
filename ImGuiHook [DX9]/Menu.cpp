@@ -67,12 +67,13 @@ void Menu::Draw()
         ImGui::Text("%s", "Collision: ");
         ImGui::Checkbox("Display Hit Spheres", &Globals::DispHitSpheres);
         ImGui::Checkbox("Display Hurt Spheres", &Globals::DispHurtSpheres);
-
-        ImGui::Spacing();
+        //ImGui::Checkbox("Display Stage Collision", &Globals::DispStageCollision);
+        
+        ImGui::Dummy(ImVec2(0.0f, 20.0f));
 
         ImGui::Text("%s", "Experimental: ");
         ImGui::Checkbox("Widescreen", &Globals::IsWidescreen);
-
+        ImGui::Checkbox("Free Camera", &Globals::IsFreeCamera);
         ImGui::End();
     }
 

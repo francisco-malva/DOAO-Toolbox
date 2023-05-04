@@ -14,9 +14,11 @@ struct ColoredVertex {
 };
 
 std::vector<uint16_t> indices;
+
 std::vector<float> unswizzeledVerts;
 std::vector<ColoredVertex> swizzeledVerts;
 
+std::vector<ColoredVertex> lineVerts;
 
 void Shapes::DrawSphere(IDirect3DDevice9* pDevice, D3DXVECTOR4 pos, D3DCOLOR color)
 {
@@ -122,4 +124,30 @@ void Shapes::DrawCapsule(IDirect3DDevice9* pDevice, D3DXVECTOR3 a, D3DXVECTOR3 b
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	pDevice->LightEnable(0, FALSE);
 	pDevice->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, mesh.num_vertices, mesh.num_indices / 3, mesh.indices, D3DFMT_INDEX16, swizzeledVerts.data(), sizeof(ColoredVertex));
+}
+
+
+void Shapes::AddLine(D3DXVECTOR3 a, D3DXVECTOR3 b, D3DCOLOR color) {
+
+	lineVerts.emplace_back(ColoredVertex({ a,color }));
+	lineVerts.emplace_back(ColoredVertex({ b,color }));
+}
+
+void Shapes::DrawLines(IDirect3DDevice9* pDevice) {
+
+	D3DXMATRIX mat;
+
+	D3DXMatrixIdentity(&mat);
+
+	pDevice->SetTransform(D3DTS_WORLD, &mat);
+	pDevice->SetTexture(0, NULL);
+	pDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	pDevice->LightEnable(0, FALSE);
+
+
+	pDevice->DrawPrimitiveUP(D3DPT_LINELIST, lineVerts.size() / 2, lineVerts.data(), sizeof(ColoredVertex));
+
+	lineVerts.clear();
+
 }

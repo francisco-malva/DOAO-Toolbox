@@ -25,6 +25,7 @@ struct _DirectXVersion {
 	int D3D12 = 4;
 } ;
 
+typedef HRESULT(APIENTRY* BeginScene) (IDirect3DDevice9*);
 typedef HRESULT(APIENTRY* EndScene) (IDirect3DDevice9*);
 typedef HRESULT(APIENTRY* Present) (IDirect3DDevice9*, const RECT*, const RECT*, HWND, const RGNDATA*);
 typedef HRESULT(APIENTRY* DrawIndexedPrimitive)(IDirect3DDevice9*, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT);

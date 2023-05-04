@@ -55,7 +55,14 @@
     <ClInclude Include="Shapes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WidescreenFix.h" />
+    <ClInclude Include="StagePropDrawer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WidescreenFix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraData.h" />
+    <ClInclude Include="FreeCam.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -98,6 +105,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WidescreenFix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StagePropDrawer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
