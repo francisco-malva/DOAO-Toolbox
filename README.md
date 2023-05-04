@@ -7,3 +7,4 @@ Injectable DLL providing several extra features for Dead or Alive Online.
 
 ## Used Tech/Libraries
 * [ImGuiHook [DX9]](https://github.com/furkankadirguzeloglu/ImGuiHook-DirectX9)
+* [OCTASPHERE](https://prideout.net/blog/octasphere)
