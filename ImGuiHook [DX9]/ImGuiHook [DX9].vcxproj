@@ -131,6 +131,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>$(DXSDK_DIR)Lib\x86\d3d9.lib;$(DXSDK_DIR)Lib\x86\d3d9x.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -173,6 +174,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>$(DXSDK_DIR)Lib\x86\d3d9.lib;$(DXSDK_DIR)Lib\x86\d3d9x.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -193,6 +195,7 @@
     <ClInclude Include="par_octasphere.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="StagePropDrawer.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="WidescreenFix.h" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +215,7 @@
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StagePropDrawer.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WidescreenFix.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

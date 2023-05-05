@@ -6,6 +6,7 @@
 #include "par_octasphere.h"
 
 #include "Shapes.h"
+#include "Transform.h"
 
 
 struct ColoredVertex {
@@ -52,11 +53,10 @@ void Shapes::DrawSphere(IDirect3DDevice9* pDevice, D3DXVECTOR4 pos, D3DCOLOR col
 		swizzeledVerts[i].color = color;
 	}
 
-	D3DXMATRIX mat;
 
-	D3DXMatrixTranslation(&mat, pos.x, pos.y, pos.z);
+	Transform transform{};
 
-	pDevice->SetTransform(D3DTS_WORLD, &mat);
+	pDevice->SetTransform(D3DTS_WORLD, transform.Translate(pos.x, pos.y, pos.z).GetMatrix());
 	pDevice->SetTexture(0, NULL);
 	pDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -104,21 +104,16 @@ void Shapes::DrawCapsule(IDirect3DDevice9* pDevice, D3DXVECTOR3 a, D3DXVECTOR3 b
 
 	D3DXMATRIX local, trans, rotT, rot, f;
 
+	Transform transform{};
 
-	D3DXMatrixTranslation(&local, 0.0f, length / 2.0f, 0.0f);
+	transform
+		.Translate(0.0f, length * 0.5f, 0.0f)
+		.Rotate(90.0f, 0.0f, 0.0f)
+		.LookAtLH({ a.x,a.y,a.z }, { b.x,b.y,b.z }, { 0.0f,1.0f,0.0f })
+		.Translate(a.x, a.y, a.z);
 
-	D3DXVECTOR3 zero = { 0.0f,0.0f,0.0f };
-	D3DXVECTOR3 forward = { 0.0f,0.0f,1.0f };
-	D3DXVec3Normalize(&axis, &dir);
 
-	D3DXMatrixLookAtRH(&rotT, &zero, &forward, &axis);
-
-	D3DXMatrixTranslation(&trans, a.x, a.y, a.z);
-
-	D3DXMatrixMultiply(&rot, &local, &rotT);
-	D3DXMatrixMultiply(&f, &rot, &trans);
-
-	pDevice->SetTransform(D3DTS_WORLD, &f);
+	pDevice->SetTransform(D3DTS_WORLD, transform.GetMatrix());
 	pDevice->SetTexture(0, NULL);
 	pDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);

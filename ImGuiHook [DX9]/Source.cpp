@@ -1,3 +1,7 @@
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "detours.lib")
+
 #include <windows.h>
 #include <iostream>
 #include <imgui.h>
