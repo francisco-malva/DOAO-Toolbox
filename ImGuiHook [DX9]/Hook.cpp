@@ -9,6 +9,10 @@
 #include "StagePropDrawer.h"
 #include "FreeCam.h"
 #include "CameraData.h"
+#include "Shapes.h"
+#include "GameFlowControl.h"
+
+bool Initialized;
 
 Hook::CurrentProcess Hook::Process;
 Hook::_DirectXVersion  Hook::DirectXVersion;
@@ -28,6 +32,8 @@ Hook::SetPixelShader oSetPixelShader;
 Hook::SetTransform oSetTransform;
 Hook::GetTransform oGetTransform;
 
+void DrawToolbox(IDirect3DDevice9* pDevice);
+
 HRESULT APIENTRY hkBeginScene(IDirect3DDevice9* pDevice) {
 
     if (pDevice == NULL)
@@ -40,26 +46,18 @@ HRESULT APIENTRY hkEndScene(IDirect3DDevice9* pDevice) {
     if (pDevice == NULL)
         return oEndScene(pDevice);
 
-    if (!Globals::Initialized) {
+    if (!Initialized) {
 
         Menu::Init(pDevice);
 
-        Globals::Initialized = true;
+        Initialized = true;
     }
 
     WidescreenFix::Update();
+    GameFlowControl::Update();
 
-    IDirect3DStateBlock9* state;
-
-    pDevice->CreateStateBlock(D3DSBT_ALL, &state);
-    state->Capture();
-
-    Menu::Draw();
-    HitshapeViewer::Draw(pDevice);
-    StagePropDrawer::Draw(pDevice);
+    DrawToolbox(pDevice);
     
-    state->Apply();
-    state->Release();
     return oEndScene(pDevice);
 }
 
@@ -267,4 +265,19 @@ bool Hook::CheckDirectXVersion(int version)
 	}
 
 	return false;
+}
+
+void DrawToolbox(IDirect3DDevice9* pDevice)
+{
+    IDirect3DStateBlock9* state;
+
+    pDevice->CreateStateBlock(D3DSBT_ALL, &state);
+    state->Capture();
+
+    Menu::Draw();
+    HitshapeViewer::Draw(pDevice);
+    StagePropDrawer::Draw(pDevice);
+
+    state->Apply();
+    state->Release();
 }

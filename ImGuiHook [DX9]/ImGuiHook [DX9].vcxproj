@@ -180,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="FreeCam.h" />
+    <ClInclude Include="GameFlowControl.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HitshapeViewer.h" />
     <ClInclude Include="Directories\ImGui\imconfig.h" />
@@ -201,6 +202,7 @@
   <ItemGroup>
     <ClCompile Include="CameraData.cpp" />
     <ClCompile Include="FreeCam.cpp" />
+    <ClCompile Include="GameFlowControl.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="HitshapeViewer.cpp" />
     <ClCompile Include="Directories\ImGui\imgui.cpp" />

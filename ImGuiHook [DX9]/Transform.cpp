@@ -54,6 +54,7 @@ Transform& Transform::LookAtRH(const D3DXVECTOR3 pEye, const D3DXVECTOR3 pAt, co
     D3DXMATRIX mat;
     D3DXMatrixLookAtRH(&mat, &pEye, &pAt, &pUp);
 
+    matrix_ *= mat;
     return *this;
 }
 

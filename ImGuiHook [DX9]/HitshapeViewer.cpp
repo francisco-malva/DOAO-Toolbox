@@ -26,6 +26,9 @@ float* PlayerHitSphereRadiiArray = reinterpret_cast<float*>(0x028ff418);
 float* PlayerHurtSphereRadiiArray = reinterpret_cast<float*>(0x028fed18);
 float* PlayerHurtCapsuleRadiiArray = reinterpret_cast<float*>(0x028fef98);
 
+bool HitshapeViewer::DispHitSpheres;
+bool HitshapeViewer::DispHurtSpheres;
+
 void DrawHitCollider(IDirect3DDevice9* pDevice, int playerId, int hitId);
 void DrawHurtCollider(IDirect3DDevice9* pDevice, int playerId, int hitId);
 
@@ -48,13 +51,13 @@ void HitshapeViewer::Draw(IDirect3DDevice9* pDevice)
 
 		int otherId = playerId == 0;
 
-		if (Globals::DispHitSpheres) {
+		if (DispHitSpheres) {
 			for (int i = 0; i < 0xf; i++) {
 				DrawHitCollider(pDevice, playerId, i);
 			}
 		}
 		
-		if (Globals::DispHurtSpheres) {
+		if (DispHurtSpheres) {
 			for (int i = 0; i < 0x10; i++) {
 				DrawHurtCollider(pDevice, playerId, i);
 			}

@@ -16,6 +16,9 @@ namespace HitshapeViewer {
 		HITSHAPE_DISP_HURT = 0x2
 	};
 
+	extern bool DispHitSpheres;
+	extern bool DispHurtSpheres;
+
 	void Draw(IDirect3DDevice9* pDevice);
 }
 

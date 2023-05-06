@@ -2,16 +2,18 @@
 
 #include "Globals.h"
 #include "CameraData.h"
+#include "Transform.h"
+
+
+bool FreeCam::IsActive;
 
 D3DXVECTOR3 position;
 D3DXVECTOR3 rotation;
 
 void FreeCam::Update()
 {
-	if (!Globals::IsFreeCamera)
+	if (!FreeCam::IsActive)
 		return;
-
-	D3DXMATRIX trans, rot, f;
 
 	float x = cosf(D3DXToRadian(rotation.y + 90.0f)), z = sinf(D3DXToRadian(rotation.y + 90.0f));
 
@@ -33,17 +35,17 @@ void FreeCam::Update()
 		rotation.y = fmodf(rotation.y, D3DX_PI * 2.0f);
 	}
 
-	if (GetAsyncKeyState(VK_UP) & 1) {
+	if (GetAsyncKeyState('Q') & 1) {
 		position.y -= 0.1f;
 	}
-	if (GetAsyncKeyState(VK_DOWN) & 1) {
+	if (GetAsyncKeyState('E') & 1) {
 		position.y += 0.1f;
 	}
 
-	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, rotation.y, rotation.x, rotation.z);
+	Transform transform{};
 
-	D3DXMatrixMultiply(&f, &rot, &trans);
+	transform.Rotate(rotation.x, rotation.y, rotation.z).Translate(position.x, position.y, position.z);
 
-	*CameraData::ViewMatrix = f;
+
+	*CameraData::ViewMatrix = *transform.GetMatrix();
 }

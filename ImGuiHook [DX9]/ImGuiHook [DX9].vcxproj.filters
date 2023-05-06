@@ -61,9 +61,16 @@
     <ClInclude Include="WidescreenFix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CameraData.h" />
-    <ClInclude Include="FreeCam.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="FreeCam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFlowControl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -118,6 +125,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFlowControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

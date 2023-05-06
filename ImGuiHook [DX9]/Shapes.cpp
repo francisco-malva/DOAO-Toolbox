@@ -102,15 +102,33 @@ void Shapes::DrawCapsule(IDirect3DDevice9* pDevice, D3DXVECTOR3 a, D3DXVECTOR3 b
 		swizzeledVerts[i].color = color;
 	}
 
-	D3DXMATRIX local, trans, rotT, rot, f;
-
 	Transform transform{};
 
-	transform
-		.Translate(0.0f, length * 0.5f, 0.0f)
-		.Rotate(90.0f, 0.0f, 0.0f)
-		.LookAtLH({ a.x,a.y,a.z }, { b.x,b.y,b.z }, { 0.0f,1.0f,0.0f })
-		.Translate(a.x, a.y, a.z);
+
+	float pitch = 0.0f;
+	float yaw = 0.0f;
+
+	float dx = b.x - a.x;
+	float dy = b.y - a.y;
+	float dz = b.z - a.z;
+	float lenXZsquare = dx * dx + dz * dz;
+
+	float lenSquare = lenXZsquare + dy * dy;
+
+	pitch = atan2f(-sqrt(lenXZsquare), dy);
+	yaw = atan2f(-dx, dz);
+
+
+	float mx = a.x + b.x;
+	float my = a.y + b.y;
+	float mz = a.z + b.z;
+
+	mx *= 0.5f;
+	my *= 0.5f;
+	mz *= 0.5f;
+
+	transform.
+		Rotate(pitch, yaw, 0.0f).Translate(mx, my, mz);
 
 
 	pDevice->SetTransform(D3DTS_WORLD, transform.GetMatrix());

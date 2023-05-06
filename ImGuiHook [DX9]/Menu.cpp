@@ -1,11 +1,15 @@
-#include "Menu.h"
-
 #include <imgui.h>
 #include <imgui_impl_win32.h>
 #include <imgui_impl_dx9.h>
 
+#include "Menu.h"
 #include "Hook.h"
 #include "Globals.h"
+#include "HitshapeViewer.h"
+#include "FreeCam.h"
+#include "GameFlowControl.h"
+
+bool ShowMenu;
 
 void InputHandler() {
     for (int i = 0; i < 5; i++) {
@@ -24,7 +28,7 @@ void InputHandler() {
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (Globals::ShowMenu && ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) {
+    if (ShowMenu && ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) {
         return true;
     }
     return CallWindowProc(Hook::Process.TargetWndProc, hWnd, msg, wParam, lParam);
@@ -55,25 +59,33 @@ void Menu::Draw()
     ImGui::NewFrame();
 
     if (GetAsyncKeyState(VK_INSERT) & 1)
-        Globals::ShowMenu = !Globals::ShowMenu;
+        ShowMenu = !ShowMenu;
 
 
-    ImGui::GetIO().MouseDrawCursor = Globals::ShowMenu;
+    ImGui::GetIO().MouseDrawCursor = ShowMenu;
 
 
-    if (Globals::ShowMenu) {
-        ImGui::Begin("DOAO Toolbox", &Globals::ShowMenu, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
+    if (ShowMenu) {
+        ImGui::Begin("DOAO Toolbox", &ShowMenu, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
 
-        ImGui::Text("%s", "Collision: ");
-        ImGui::Checkbox("Display Hit Spheres", &Globals::DispHitSpheres);
-        ImGui::Checkbox("Display Hurt Spheres", &Globals::DispHurtSpheres);
-        //ImGui::Checkbox("Display Stage Collision", &Globals::DispStageCollision);
+        if (ImGui::CollapsingHeader("Collision")) {
+            ImGui::Checkbox("Display Hit Spheres", &HitshapeViewer::DispHitSpheres);
+            ImGui::Checkbox("Display Hurt Spheres", &HitshapeViewer::DispHurtSpheres);
+        }
         
-        ImGui::Dummy(ImVec2(0.0f, 20.0f));
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-        ImGui::Text("%s", "Experimental: ");
-        ImGui::Checkbox("Widescreen", &Globals::IsWidescreen);
-        ImGui::Checkbox("Free Camera", &Globals::IsFreeCamera);
+        if (ImGui::CollapsingHeader("Experimental")) {
+            ImGui::Checkbox("Widescreen", &Globals::IsWidescreen);
+            ImGui::Checkbox("Free Camera", &FreeCam::IsActive);
+        }
+
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+        if (ImGui::CollapsingHeader("Game Speed Control")) {
+            ImGui::SliderFloat("Game Speed", &GameFlowControl::GameSpeed, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+            ImGui::Checkbox("Is Paused", &GameFlowControl::IsPaused);
+        }
         ImGui::End();
     }
 
