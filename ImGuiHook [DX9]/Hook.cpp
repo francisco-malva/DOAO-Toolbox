@@ -277,6 +277,7 @@ void DrawToolbox(IDirect3DDevice9* pDevice)
     Menu::Draw();
     HitshapeViewer::Draw(pDevice);
     StagePropDrawer::Draw(pDevice);
+    Shapes::DrawDebugTriangle(pDevice);
 
     state->Apply();
     state->Release();

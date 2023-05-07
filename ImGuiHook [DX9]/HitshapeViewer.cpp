@@ -5,6 +5,7 @@
 #include "Shapes.h"
 #include "Globals.h"
 #include "CameraData.h"
+#include "BattleVars.h"
 
 struct Capsule {
 	D3DXVECTOR4 p1, p2;
@@ -35,14 +36,16 @@ void DrawHurtCollider(IDirect3DDevice9* pDevice, int playerId, int hitId);
 void HitshapeViewer::Draw(IDirect3DDevice9* pDevice)
 {
 
-	if (PlayerCollisionIndicesPtrs[0] == NULL || PlayerCollisionIndicesPtrs[1] == NULL)
+	if (!BattleVars::InBattle() || PlayerCollisionIndicesPtrs[0] == NULL || PlayerCollisionIndicesPtrs[1] == NULL)
 		return;
+
 	D3DXMATRIX identity;
 	D3DXMatrixIdentity(&identity);
 
 	pDevice->SetVertexShader(NULL);
 	pDevice->SetPixelShader(NULL);
 
+	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	pDevice->SetTransform(D3DTS_VIEW, CameraData::ViewMatrix);
 	pDevice->SetTransform(D3DTS_PROJECTION, CameraData::ProjMatrix);
 

@@ -85,6 +85,25 @@ void Menu::Draw()
         if (ImGui::CollapsingHeader("Game Speed Control")) {
             ImGui::SliderFloat("Game Speed", &GameFlowControl::GameSpeed, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
             ImGui::Checkbox("Is Paused", &GameFlowControl::IsPaused);
+
+            if (GameFlowControl::IsPaused) {
+
+                bool stepFrames = ImGui::Button("Step Frames");
+                ImGui::SameLine();
+                ImGui::InputInt("", &GameFlowControl::DesiredFrameStep);
+
+                if (GameFlowControl::DesiredFrameStep < 1) {
+                    GameFlowControl::DesiredFrameStep = 1;
+                }
+
+                if (GameFlowControl::DesiredFrameStep > 999) {
+                    GameFlowControl::DesiredFrameStep = 999;
+                }
+
+                if (stepFrames) {
+                    GameFlowControl::BeginFrameStep();
+                }
+            }
         }
         ImGui::End();
     }

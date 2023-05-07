@@ -16,5 +16,7 @@ namespace Shapes {
 	void AddLine(D3DXVECTOR3 a, D3DXVECTOR3 b, D3DCOLOR color);
 
 	void DrawLines(IDirect3DDevice9* pDevice);
+
+	void DrawDebugTriangle(IDirect3DDevice9* pDevice);
 }
 

@@ -164,3 +164,34 @@ void Shapes::DrawLines(IDirect3DDevice9* pDevice) {
 	lineVerts.clear();
 
 }
+
+void Shapes::DrawDebugTriangle(IDirect3DDevice9* pDevice)
+{
+	const static ColoredVertex vertices[] = {
+		ColoredVertex({D3DXVECTOR3({0.0f,0.0f,0.0f}), D3DCOLOR_ARGB(255,255,255,255)}),
+		ColoredVertex({D3DXVECTOR3({1.0f,0.0f,0.0f}), D3DCOLOR_ARGB(255,255,0,0)}),
+		ColoredVertex({D3DXVECTOR3({0.0f,1.0f,0.0f}), D3DCOLOR_ARGB(255,0,255,0)}),
+		ColoredVertex({D3DXVECTOR3({0.0f,0.0f,1.0f}), D3DCOLOR_ARGB(255,0,0,255)})
+	};
+
+	const static WORD indices[] = {
+		0,
+		1,
+		0,
+		2,
+		0,
+		3
+	};
+
+	D3DXMATRIX mat;
+
+	D3DXMatrixIdentity(&mat);
+
+	pDevice->SetTransform(D3DTS_WORLD, &mat);
+	pDevice->SetTexture(0, NULL);
+	pDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	pDevice->LightEnable(0, FALSE);
+
+	pDevice->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]) / 2, indices, D3DFMT_INDEX16, vertices, sizeof(vertices[0]));
+}

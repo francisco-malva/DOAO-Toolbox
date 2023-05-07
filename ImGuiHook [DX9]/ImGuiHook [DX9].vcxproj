@@ -178,6 +178,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BattleVars.h" />
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="FreeCam.h" />
     <ClInclude Include="GameFlowControl.h" />
@@ -194,12 +195,14 @@
     <ClInclude Include="Hook.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="par_octasphere.h" />
+    <ClInclude Include="ScheduledFibers.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="StagePropDrawer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="WidescreenFix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BattleVars.cpp" />
     <ClCompile Include="CameraData.cpp" />
     <ClCompile Include="FreeCam.cpp" />
     <ClCompile Include="GameFlowControl.cpp" />
@@ -214,6 +217,7 @@
     <ClCompile Include="Directories\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Hook.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="ScheduledFibers.cpp" />
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StagePropDrawer.cpp" />
