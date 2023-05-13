@@ -2,12 +2,15 @@
 #include <imgui_impl_win32.h>
 #include <imgui_impl_dx9.h>
 
-#include "Menu.h"
+#include "MainMenu.h"
+#include "MoveDetails.h"
 #include "Hook.h"
 #include "Globals.h"
 #include "HitshapeViewer.h"
 #include "FreeCam.h"
 #include "GameFlowControl.h"
+#include "MainMenu.h"
+#include "Visibility.h"
 
 bool ShowMenu;
 
@@ -34,7 +37,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     return CallWindowProc(Hook::Process.TargetWndProc, hWnd, msg, wParam, lParam);
 }
 
-void Menu::Init(IDirect3DDevice9* pDevice)
+void MainMenu::Init(IDirect3DDevice9* pDevice)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -51,16 +54,10 @@ void Menu::Init(IDirect3DDevice9* pDevice)
     }
 }
 
-void Menu::Draw()
+void MainMenu::Draw()
 {
-
-    ImGui_ImplDX9_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
-
     if (GetAsyncKeyState(VK_INSERT) & 1)
         ShowMenu = !ShowMenu;
-
 
     ImGui::GetIO().MouseDrawCursor = ShowMenu;
 
@@ -68,13 +65,11 @@ void Menu::Draw()
     if (ShowMenu) {
         ImGui::Begin("DOAO Toolbox", &ShowMenu, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
 
-        if (ImGui::CollapsingHeader("Collision")) {
-            ImGui::Checkbox("Display Hit Spheres", &HitshapeViewer::DispHitSpheres);
-            ImGui::Checkbox("Display Hurt Spheres", &HitshapeViewer::DispHurtSpheres);
-        }
+        HitshapeViewer::DrawMainUi();
         
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+        //TODO: Refactor
         if (ImGui::CollapsingHeader("Experimental")) {
             ImGui::Checkbox("Widescreen", &Globals::IsWidescreen);
             ImGui::Checkbox("Free Camera", &FreeCam::IsActive);
@@ -82,34 +77,24 @@ void Menu::Draw()
 
         ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-        if (ImGui::CollapsingHeader("Game Speed Control")) {
-            ImGui::SliderFloat("Game Speed", &GameFlowControl::GameSpeed, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
-            ImGui::Checkbox("Is Paused", &GameFlowControl::IsPaused);
+        GameFlowControl::DrawMainUi();
 
-            if (GameFlowControl::IsPaused) {
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-                bool stepFrames = ImGui::Button("Step Frames");
-                ImGui::SameLine();
-                ImGui::InputInt("", &GameFlowControl::DesiredFrameStep);
+        Visibility::DrawUi();
 
-                if (GameFlowControl::DesiredFrameStep < 1) {
-                    GameFlowControl::DesiredFrameStep = 1;
-                }
+        ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-                if (GameFlowControl::DesiredFrameStep > 999) {
-                    GameFlowControl::DesiredFrameStep = 999;
-                }
+        MoveDetails::DrawMainUi();
 
-                if (stepFrames) {
-                    GameFlowControl::BeginFrameStep();
-                }
-            }
-        }
         ImGui::End();
     }
 
-    ImGui::EndFrame();
-    ImGui::Render();
-    ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+   
 
+}
+
+bool MainMenu::IsActive()
+{
+    return ShowMenu;
 }

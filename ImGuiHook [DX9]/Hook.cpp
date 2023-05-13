@@ -3,7 +3,7 @@
 
 #include "Hook.h"
 #include "Globals.h"
-#include "Menu.h"
+#include "MainMenu.h"
 #include "HitshapeViewer.h"
 #include "WidescreenFix.h"
 #include "StagePropDrawer.h"
@@ -11,6 +11,8 @@
 #include "CameraData.h"
 #include "Shapes.h"
 #include "GameFlowControl.h"
+#include "MoveDetails.h"
+#include "GeneralUi.h"
 
 bool Initialized;
 
@@ -48,7 +50,7 @@ HRESULT APIENTRY hkEndScene(IDirect3DDevice9* pDevice) {
 
     if (!Initialized) {
 
-        Menu::Init(pDevice);
+        MainMenu::Init(pDevice);
 
         Initialized = true;
     }
@@ -274,8 +276,13 @@ void DrawToolbox(IDirect3DDevice9* pDevice)
     pDevice->CreateStateBlock(D3DSBT_ALL, &state);
     state->Capture();
 
-    Menu::Draw();
-    HitshapeViewer::Draw(pDevice);
+
+    GeneralUi::BeginFrame();
+    MainMenu::Draw();
+    MoveDetails::DrawWindow();
+    GeneralUi::EndFrame();
+
+    HitshapeViewer::DrawCollision(pDevice);
     StagePropDrawer::Draw(pDevice);
     Shapes::DrawDebugTriangle(pDevice);
 

@@ -19,6 +19,8 @@ namespace HitshapeViewer {
 	extern bool DispHitSpheres;
 	extern bool DispHurtSpheres;
 
-	void Draw(IDirect3DDevice9* pDevice);
+	void DrawCollision(IDirect3DDevice9* pDevice);
+
+	void DrawMainUi();
 }
 

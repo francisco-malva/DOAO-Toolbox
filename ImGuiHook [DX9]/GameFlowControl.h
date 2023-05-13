@@ -9,5 +9,7 @@ namespace GameFlowControl
 	void Update();
 
 	void BeginFrameStep();
+
+	void DrawMainUi();
 };
 

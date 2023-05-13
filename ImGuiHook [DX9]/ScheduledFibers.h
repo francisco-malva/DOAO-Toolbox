@@ -6,6 +6,7 @@
 
 namespace ScheduledFibers
 {
+#pragma pack(push, 1)
 	struct ScheduledFiber {
 		DWORD Flags;
 		int YieldFrames;
@@ -14,6 +15,7 @@ namespace ScheduledFibers
 		LARGE_INTEGER Performance;
 		LPVOID OnDelete;
 	};
+#pragma pack(pop)
 
     typedef enum FIBER_ID {
         FIBER_ID_MAIN_PROCESSING = 0,

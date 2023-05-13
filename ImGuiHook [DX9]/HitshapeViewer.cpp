@@ -1,5 +1,6 @@
-
 #include <d3dx9.h>
+
+#include <imgui.h>
 
 #include "HitshapeViewer.h"
 #include "Shapes.h"
@@ -33,7 +34,7 @@ bool HitshapeViewer::DispHurtSpheres;
 void DrawHitCollider(IDirect3DDevice9* pDevice, int playerId, int hitId);
 void DrawHurtCollider(IDirect3DDevice9* pDevice, int playerId, int hitId);
 
-void HitshapeViewer::Draw(IDirect3DDevice9* pDevice)
+void HitshapeViewer::DrawCollision(IDirect3DDevice9* pDevice)
 {
 
 	if (!BattleVars::InBattle() || PlayerCollisionIndicesPtrs[0] == NULL || PlayerCollisionIndicesPtrs[1] == NULL)
@@ -66,6 +67,14 @@ void HitshapeViewer::Draw(IDirect3DDevice9* pDevice)
 			}
 		}
 		
+	}
+}
+
+void HitshapeViewer::DrawMainUi()
+{
+	if (ImGui::CollapsingHeader("Collision")) {
+		ImGui::Checkbox("Display Hit Spheres", &HitshapeViewer::DispHitSpheres);
+		ImGui::Checkbox("Display Hurt Spheres", &HitshapeViewer::DispHurtSpheres);
 	}
 }
 

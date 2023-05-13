@@ -3,13 +3,10 @@
 #pragma comment(lib, "detours.lib")
 
 #include <windows.h>
-#include <iostream>
 #include <imgui.h>
 #include <imgui_impl_dx9.h>
 #include <imgui_impl_win32.h>
 
-
-#include "Menu.h"
 #include "HitshapeViewer.h"
 #include "Hook.h"
 #include "Shapes.h"
